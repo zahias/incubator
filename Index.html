@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>War & AMR: The Causal Pathways — CMP Interactive</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>War & AMR: The Causal Pathways — AUB GHI</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Playfair+Display:wght@700;900&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --navy:    #0A1628;
-    --navy2:   #0F2240;
-    --teal:    #028090;
-    --mint:    #02C39A;
-    --alert:   #C0392B;
-    --orange:  #E07A5F;
-    --amber:   #D4A017;
-    --blue:    #4A6B82;
-    --white:   #FFFFFF;
-    --light:   #D0E8F0;
-    --muted:   #607D8B;
+    --navy:   #0A1628;
+    --navy2:  #0F2240;
+    --teal:   #028090;
+    --mint:   #02C39A;
+    --alert:  #C0392B;
+    --orange: #E07A5F;
+    --amber:  #D4A017;
+    --blue:   #4A6B82;
+    --white:  #FFFFFF;
+    --light:  #D0E8F0;
+    --muted:  #607D8B;
   }
 
   html, body {
@@ -30,241 +30,225 @@
     color: var(--white);
   }
 
-  /* ── LAYOUT ─────────────────────────────────────── */
-  #app {
-    display: flex; flex-direction: column;
-    width: 100vw; height: 100vh;
-  }
+  /* ── APP SHELL ───────────────────────────────────── */
+  #app { display: flex; flex-direction: column; width: 100vw; height: 100vh; }
 
   /* ── HEADER ─────────────────────────────────────── */
   header {
     flex-shrink: 0;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 28px;
-    height: 58px;
+    padding: 0 24px; height: 56px;
     background: var(--navy2);
     border-bottom: 2px solid var(--teal);
-    z-index: 10;
+    z-index: 20; gap: 12px;
   }
-  .header-left { display: flex; align-items: center; gap: 14px; }
-  .header-badge {
-    background: var(--alert);
-    color: #fff; font-size: 10px; font-weight: 700;
-    letter-spacing: 1.2px; padding: 4px 10px; border-radius: 2px;
-    text-transform: uppercase;
+  .hdr-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .hdr-badge {
+    flex-shrink: 0;
+    background: var(--alert); color: #fff;
+    font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 2px; text-transform: uppercase;
   }
   header h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 17px; font-weight: 700;
-    color: var(--white); letter-spacing: 0.3px;
+    font-size: 16px; font-weight: 700; color: var(--white);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   header h1 span { color: var(--mint); }
-  .header-right {
-    display: flex; align-items: center; gap: 20px;
-  }
-  .header-stat {
-    text-align: center;
-  }
-  .header-stat .num {
-    font-size: 16px; font-weight: 700; color: var(--orange);
-    line-height: 1;
-  }
-  .header-stat .lbl {
-    font-size: 9px; color: var(--muted); letter-spacing: 0.8px;
-    text-transform: uppercase; margin-top: 2px;
-  }
-  .header-sep { width: 1px; height: 28px; background: #1E3A52; }
-  .cmp-tag {
-    font-size: 10px; font-weight: 600; color: var(--teal);
-    letter-spacing: 1px; text-transform: uppercase;
-  }
+  .hdr-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  .hdr-stats { display: flex; align-items: center; gap: 14px; }
+  .hdr-stat { text-align: center; }
+  .hdr-stat .n { font-size: 15px; font-weight: 700; color: var(--orange); line-height: 1; }
+  .hdr-stat .l { font-size: 8px; color: var(--muted); letter-spacing: 0.7px; text-transform: uppercase; margin-top: 1px; }
+  .hdr-sep { width: 1px; height: 24px; background: #1E3A52; flex-shrink: 0; }
+  .hdr-logo img { height: 30px; object-fit: contain; opacity: 0.92; display: block; }
+  .hdr-logo-text { display: none; flex-direction: column; align-items: flex-end; gap: 1px; }
+  .hdr-logo-text .t1 { font-size: 11px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+  .hdr-logo-text .t2 { font-size: 8px; font-weight: 600; color: var(--teal); letter-spacing: 0.8px; text-transform: uppercase; }
 
-  /* ── MAIN AREA ───────────────────────────────────── */
-  #main {
-    flex: 1; display: flex; overflow: hidden; position: relative;
-  }
+  /* ── MAIN ────────────────────────────────────────── */
+  #main { flex: 1; display: flex; overflow: hidden; position: relative; min-height: 0; }
 
   /* ── DIAGRAM ─────────────────────────────────────── */
-  #diagram-wrap {
-    flex: 1; position: relative; overflow: hidden;
-  }
-  #particle-canvas {
-    position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  }
-  #diagram-svg {
-    width: 100%; height: 100%;
-    position: absolute; inset: 0; z-index: 2;
-  }
-
-  /* ── NODE STYLES ─────────────────────────────────── */
-  .node-group { cursor: pointer; }
-  .node-group:hover .node-ring { opacity: 1; }
-
-  .node-circle {
-    transition: r 0.2s ease, filter 0.2s ease;
-  }
-  .node-group:hover .node-circle {
-    filter: brightness(1.25);
-  }
-  .node-ring { opacity: 0; transition: opacity 0.3s; }
-
-  /* WAR node pulse */
-  @keyframes warPulse {
-    0%, 100% { r: 44; opacity: 0.15; }
-    50%       { r: 58; opacity: 0; }
-  }
-  .war-pulse { animation: warPulse 2.4s ease-in-out infinite; }
-
-  /* AMR node pulse */
-  @keyframes amrPulse {
-    0%, 100% { r: 40; opacity: 0.2; }
-    50%       { r: 55; opacity: 0; }
-  }
-  .amr-pulse { animation: amrPulse 2s ease-in-out infinite; }
-
-  /* path glow on hover */
-  .flow-path {
-    transition: stroke-opacity 0.3s, stroke-width 0.3s;
-  }
-  .flow-path.active {
-    stroke-opacity: 0.55 !important;
-    stroke-width: 3 !important;
-  }
-
-  /* ── DETAIL PANEL ────────────────────────────────── */
-  #detail-panel {
-    width: 0; flex-shrink: 0; overflow: hidden;
-    transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
-    background: #071120;
-    border-left: 2px solid var(--teal);
-    z-index: 5;
-    display: flex; flex-direction: column;
-  }
-  #detail-panel.open { width: 360px; }
-
-  #detail-inner {
-    width: 360px; height: 100%;
-    overflow-y: auto; padding: 24px 22px;
-    scrollbar-width: thin; scrollbar-color: var(--teal) transparent;
-  }
-
-  .dp-close {
-    display: flex; justify-content: flex-end; margin-bottom: 16px;
-  }
-  .dp-close button {
-    background: none; border: 1px solid #1E3A52;
-    color: var(--muted); font-size: 14px; padding: 4px 10px;
-    cursor: pointer; border-radius: 3px; transition: all 0.2s;
-  }
-  .dp-close button:hover { border-color: var(--teal); color: var(--white); }
-
-  .dp-tag {
-    display: inline-block;
-    font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
-    padding: 3px 10px; border-radius: 2px; margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-  .dp-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px; font-weight: 700; line-height: 1.2;
-    margin-bottom: 8px;
-  }
-  .dp-subtitle {
-    font-size: 11.5px; color: #7AAFC0; font-style: italic;
-    margin-bottom: 20px; line-height: 1.5;
-  }
-
-  .dp-section { margin-bottom: 20px; }
-  .dp-section-title {
-    font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px;
-    color: var(--teal); text-transform: uppercase;
-    margin-bottom: 10px; padding-bottom: 6px;
-    border-bottom: 1px solid #1E3A52;
-  }
-  .dp-section p {
-    font-size: 12px; line-height: 1.65; color: #A8C8D8;
-  }
-
-  .dp-stat-row {
-    display: flex; gap: 12px; margin-bottom: 16px;
-  }
-  .dp-stat {
-    flex: 1; background: #0D1E32;
-    border: 1px solid #1E3A52; border-radius: 4px;
-    padding: 10px 12px; text-align: center;
-  }
-  .dp-stat .n {
-    font-size: 22px; font-weight: 700; line-height: 1;
-  }
-  .dp-stat .l {
-    font-size: 9px; color: var(--muted); margin-top: 3px;
-    text-transform: uppercase; letter-spacing: 0.6px;
-  }
-
-  .dp-pathogens { list-style: none; }
-  .dp-pathogens li {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 11.5px; color: #A8C8D8; padding: 5px 0;
-    border-bottom: 1px solid #0D1E32;
-  }
-  .dp-pathogens li::before {
-    content: ''; width: 7px; height: 7px; border-radius: 50%;
-    background: var(--teal); flex-shrink: 0;
-  }
-
-  /* ── FOOTER STATS ────────────────────────────────── */
-  #footer-stats {
-    flex-shrink: 0; height: 40px;
-    background: var(--navy2);
-    border-top: 1px solid #1A3347;
-    display: flex; align-items: center;
-    padding: 0 28px; gap: 0;
-    overflow: hidden;
-  }
-  .fs-item {
-    display: flex; align-items: center; gap: 8px;
-    padding: 0 20px; border-right: 1px solid #1A3347;
-    flex-shrink: 0;
-  }
-  .fs-item:first-child { padding-left: 0; }
-  .fs-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .fs-text { font-size: 10.5px; color: var(--muted); }
-  .fs-text strong { color: var(--white); font-weight: 600; }
-  .fs-source {
-    margin-left: auto; font-size: 9px; color: #3A5568;
-    font-style: italic; flex-shrink: 0;
-  }
-
-  /* ── INSTRUCTION HINT ────────────────────────────── */
-  #hint {
-    position: absolute; bottom: 52px; left: 50%;
-    transform: translateX(-50%);
-    background: rgba(2,128,144,0.15);
-    border: 1px solid rgba(2,128,144,0.4);
-    color: #7AAFC0; font-size: 11px; padding: 6px 16px;
-    border-radius: 20px; z-index: 10; pointer-events: none;
-    animation: hintFade 4s ease-in-out forwards;
-  }
-  @keyframes hintFade {
-    0%   { opacity: 0; }
-    10%  { opacity: 1; }
-    70%  { opacity: 1; }
-    100% { opacity: 0; }
-  }
+  #diagram-wrap { flex: 1; position: relative; overflow: hidden; min-width: 0; }
+  #particle-canvas { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  #diagram-svg { width: 100%; height: 100%; position: absolute; inset: 0; z-index: 2; }
 
   /* ── LEGEND ──────────────────────────────────────── */
   #legend {
-    position: absolute; top: 14px; left: 18px;
-    z-index: 10; display: flex; flex-direction: column; gap: 6px;
+    position: absolute; top: 12px; left: 14px; z-index: 10;
+    display: flex; flex-direction: column; gap: 5px;
+    background: rgba(10,22,40,0.7); padding: 8px 10px; border-radius: 6px;
+    border: 1px solid #1A3347;
   }
-  .leg-item {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 10px; color: var(--muted);
+  .leg-item { display: flex; align-items: center; gap: 7px; font-size: 9.5px; color: var(--muted); }
+  .leg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .leg-line { width: 20px; height: 2px; border-radius: 1px; background: linear-gradient(90deg, #C0392B, #02C39A); }
+
+  /* ── NODE ANIMATIONS ─────────────────────────────── */
+  .node-group { cursor: pointer; }
+  .node-group:hover .node-ring { opacity: 1; }
+  .node-circle { transition: filter 0.2s ease; }
+  .node-group:hover .node-circle { filter: brightness(1.25); }
+  .node-ring { opacity: 0; transition: opacity 0.3s; }
+  @keyframes warPulse  { 0%,100% { r:44; opacity:.15; } 50% { r:60; opacity:0; } }
+  @keyframes amrPulse  { 0%,100% { r:40; opacity:.20; } 50% { r:56; opacity:0; } }
+  .war-pulse { animation: warPulse 2.4s ease-in-out infinite; }
+  .amr-pulse { animation: amrPulse 2.0s ease-in-out infinite; }
+  .flow-path { transition: stroke-opacity .3s, stroke-width .3s; }
+
+  /* ── HINT ────────────────────────────────────────── */
+  #hint {
+    position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
+    background: rgba(2,128,144,0.15); border: 1px solid rgba(2,128,144,0.4);
+    color: #7AAFC0; font-size: 11px; padding: 5px 14px;
+    border-radius: 20px; z-index: 10; pointer-events: none; white-space: nowrap;
+    animation: hintFade 5s ease-in-out forwards;
   }
-  .leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .leg-line {
-    width: 22px; height: 2px; border-radius: 1px;
-    background: linear-gradient(90deg, #C0392B, #02C39A);
+  @keyframes hintFade { 0%{opacity:0} 10%{opacity:1} 70%{opacity:1} 100%{opacity:0} }
+
+  /* ── DETAIL PANEL — DESKTOP ──────────────────────── */
+  #detail-panel {
+    width: 0; flex-shrink: 0; overflow: hidden;
+    transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+    background: #071120; border-left: 2px solid var(--teal);
+    z-index: 5; display: flex; flex-direction: column;
+  }
+  #detail-panel.open { width: 340px; }
+  #detail-inner {
+    width: 340px; height: 100%; overflow-y: auto;
+    padding: 22px 20px;
+    scrollbar-width: thin; scrollbar-color: var(--teal) transparent;
+  }
+
+  /* ── DETAIL PANEL CONTENT ────────────────────────── */
+  .dp-close { display: flex; justify-content: flex-end; margin-bottom: 14px; }
+  .dp-close button {
+    background: none; border: 1px solid #1E3A52; color: var(--muted);
+    font-size: 13px; padding: 4px 10px; cursor: pointer; border-radius: 3px;
+    transition: all .2s; font-family: 'Inter', sans-serif;
+  }
+  .dp-close button:hover { border-color: var(--teal); color: var(--white); }
+  .dp-tag {
+    display: inline-block; font-size: 8.5px; font-weight: 700;
+    letter-spacing: 1.5px; padding: 3px 9px; border-radius: 2px;
+    margin-bottom: 9px; text-transform: uppercase;
+  }
+  .dp-title {
+    font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700;
+    line-height: 1.2; margin-bottom: 7px;
+  }
+  .dp-subtitle { font-size: 11px; color: #7AAFC0; font-style: italic; margin-bottom: 18px; line-height: 1.55; }
+  .dp-stat-row { display: flex; gap: 10px; margin-bottom: 16px; }
+  .dp-stat {
+    flex: 1; background: #0D1E32; border: 1px solid #1E3A52;
+    border-radius: 4px; padding: 9px 10px; text-align: center;
+  }
+  .dp-stat .n { font-size: 20px; font-weight: 700; line-height: 1; }
+  .dp-stat .l { font-size: 8.5px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .dp-section { margin-bottom: 18px; }
+  .dp-section-title {
+    font-size: 9px; font-weight: 700; letter-spacing: 1.5px; color: var(--teal);
+    text-transform: uppercase; margin-bottom: 8px; padding-bottom: 5px;
+    border-bottom: 1px solid #1E3A52;
+  }
+  .dp-section p { font-size: 11.5px; line-height: 1.65; color: #A8C8D8; }
+  .dp-pathogens { list-style: none; }
+  .dp-pathogens li {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 11px; color: #A8C8D8; padding: 5px 0;
+    border-bottom: 1px solid #0D1E32; line-height: 1.4;
+  }
+  .dp-pathogens li::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal); flex-shrink: 0; margin-top: 4px;
+  }
+
+  /* ── FOOTER ──────────────────────────────────────── */
+  #footer {
+    flex-shrink: 0; height: 38px; background: var(--navy2);
+    border-top: 1px solid #1A3347;
+    display: flex; align-items: center; overflow: hidden;
+  }
+  #footer-track {
+    display: flex; align-items: center; gap: 0;
+    animation: scrollTicker 40s linear infinite;
+    white-space: nowrap; will-change: transform;
+  }
+  #footer:hover #footer-track { animation-play-state: paused; }
+  @keyframes scrollTicker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .ft-item { display: flex; align-items: center; gap: 7px; padding: 0 28px; border-right: 1px solid #1A3347; flex-shrink: 0; }
+  .ft-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .ft-text { font-size: 10px; color: var(--muted); }
+  .ft-text strong { color: var(--white); font-weight: 600; }
+
+  /* ════════════════════════════════════════════════════
+     MOBILE  ≤ 700px
+  ════════════════════════════════════════════════════ */
+  @media (max-width: 700px) {
+
+    /* Header: shrink */
+    header { height: 50px; padding: 0 14px; gap: 8px; }
+    .hdr-badge { display: none; }
+    header h1 { font-size: 13px; }
+    .hdr-stats { display: none; }
+    .hdr-sep  { display: none; }
+    .hdr-logo img { height: 24px; }
+
+    /* Diagram: full width, taller */
+    #diagram-wrap { touch-action: manipulation; }
+
+    /* Legend: tuck top-right */
+    #legend { left: auto; right: 8px; top: 8px; padding: 5px 8px; }
+    .leg-item { font-size: 8.5px; }
+
+    /* Hint */
+    #hint { font-size: 9.5px; padding: 4px 12px; bottom: 44px; }
+
+    /* Detail panel: full-screen bottom sheet */
+    #detail-panel {
+      position: fixed !important;
+      top: auto !important; bottom: 0; left: 0; right: 0;
+      width: 100% !important; max-height: 78vh;
+      border-left: none; border-top: 2px solid var(--teal);
+      border-radius: 14px 14px 0 0;
+      transform: translateY(100%);
+      transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+      overflow-y: auto; z-index: 100;
+    }
+    #detail-panel.open {
+      width: 100% !important;
+      transform: translateY(0);
+    }
+    #detail-inner {
+      width: 100%; padding: 6px 18px 28px;
+    }
+
+    /* Sheet drag handle */
+    #detail-inner::before {
+      content: '';
+      display: block; width: 36px; height: 4px;
+      background: #2A4A62; border-radius: 2px;
+      margin: 10px auto 16px;
+    }
+
+    /* Stat numbers slightly smaller */
+    .dp-stat .n { font-size: 18px; }
+    .dp-title { font-size: 17px; }
+
+    /* Footer: scrollable, no animation */
+    #footer { overflow-x: auto; }
+    #footer-track { animation: none; }
+    .ft-item { padding: 0 18px; }
+  }
+
+  /* ════════════════════════════════════════════════════
+     SMALL PHONES  ≤ 400px
+  ════════════════════════════════════════════════════ */
+  @media (max-width: 400px) {
+    header h1 { font-size: 11.5px; }
+    #legend { display: none; }
+    .dp-stat-row { gap: 7px; }
   }
 </style>
 </head>
@@ -273,27 +257,30 @@
 
   <!-- HEADER -->
   <header>
-    <div class="header-left">
-      <span class="header-badge">⚕ Evidence Brief</span>
+    <div class="hdr-left">
+      <span class="hdr-badge">⚕ Evidence Brief</span>
       <h1>How <span>War</span> Fuels Antimicrobial Resistance</h1>
     </div>
-    <div class="header-right">
-      <div class="header-stat"><div class="num">700K+</div><div class="lbl">AMR Deaths / Year</div></div>
-      <div class="header-sep"></div>
-      <div class="header-stat"><div class="num">2–3×</div><div class="lbl">AMR Rate in Conflict</div></div>
-      <div class="header-sep"></div>
-      <div class="header-stat"><div class="num">56M+</div><div class="lbl">People Displaced</div></div>
-      <div class="header-sep"></div>
-      <div class="header-stat"><div class="num">40+</div><div class="lbl">Active Conflicts</div></div>
-      <div class="header-sep"></div>
-      <img src="./04-EPAPP/Operations/Projects/Data Portal/COVAM/COVAM Dashboard/AUB GHI logo _white.png"
-           alt="AUB Global Health Institute"
-           style="height:34px;object-fit:contain;opacity:0.92;"
-           onerror="this.style.display='none';document.getElementById('aub-fallback').style.display='flex';">
-      <span id="aub-fallback" style="display:none;flex-direction:column;align-items:flex-end;gap:1px;">
-        <span style="font-size:12px;font-weight:700;color:#fff;letter-spacing:0.5px;">AUB</span>
-        <span style="font-size:9px;font-weight:600;color:var(--teal);letter-spacing:1px;text-transform:uppercase;">Global Health Institute</span>
-      </span>
+    <div class="hdr-right">
+      <div class="hdr-stats">
+        <div class="hdr-stat"><div class="n">700K+</div><div class="l">AMR Deaths/yr</div></div>
+        <div class="hdr-sep"></div>
+        <div class="hdr-stat"><div class="n">2–3×</div><div class="l">AMR in Conflict</div></div>
+        <div class="hdr-sep"></div>
+        <div class="hdr-stat"><div class="n">56M+</div><div class="l">Displaced</div></div>
+        <div class="hdr-sep"></div>
+        <div class="hdr-stat"><div class="n">40+</div><div class="l">Active Conflicts</div></div>
+        <div class="hdr-sep"></div>
+      </div>
+      <div class="hdr-logo">
+        <img src="./04-EPAPP/Operations/Projects/Data Portal/COVAM/COVAM Dashboard/AUB GHI logo _white.png"
+             alt="AUB Global Health Institute"
+             onerror="this.parentElement.style.display='none';document.getElementById('logo-fb').style.display='flex';">
+      </div>
+      <div class="hdr-logo-text" id="logo-fb">
+        <span class="t1">AUB</span>
+        <span class="t2">Global Health Institute</span>
+      </div>
     </div>
   </header>
 
@@ -301,30 +288,36 @@
   <div id="main">
     <div id="diagram-wrap">
       <canvas id="particle-canvas"></canvas>
-      <svg id="diagram-svg" viewBox="0 0 1100 580" preserveAspectRatio="xMidYMid meet"></svg>
+      <svg id="diagram-svg" viewBox="0 0 1100 590" preserveAspectRatio="xMidYMid meet"></svg>
       <div id="legend">
-        <div class="leg-item"><div class="leg-dot" style="background:#C0392B"></div> Origin: Conflict</div>
-        <div class="leg-item"><div class="leg-line"></div> AMR Transmission Pathway</div>
-        <div class="leg-item"><div class="leg-dot" style="background:#02C39A"></div> Outcome: AMR Emergence</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#C0392B"></div>Origin: Conflict</div>
+        <div class="leg-item"><div class="leg-line"></div>AMR Pathway</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#02C39A"></div>Outcome: AMR</div>
       </div>
-      <div id="hint">Click any pathway node to explore the AMR link →</div>
+      <div id="hint">Tap any pathway node to explore →</div>
     </div>
+    <div id="detail-panel"><div id="detail-inner"></div></div>
+  </div>
 
-    <!-- DETAIL PANEL -->
-    <div id="detail-panel">
-      <div id="detail-inner"></div>
+  <!-- FOOTER TICKER -->
+  <div id="footer">
+    <div id="footer-track">
+      <!-- duplicated for seamless loop -->
+      <div class="ft-item"><div class="ft-dot" style="background:#C0392B"></div><div class="ft-text">Conflict zones show <strong>2–3× higher AMR rates</strong> than non-conflict settings — Lancet 2023</div></div>
+      <div class="ft-item"><div class="ft-dot" style="background:#E07A5F"></div><div class="ft-text"><strong>Acinetobacter baumannii</strong> resistance exceeds 80% in MENA conflict wound infections</div></div>
+      <div class="ft-item"><div class="ft-dot" style="background:#D4A017"></div><div class="ft-text">Each year of conflict correlates with a <strong>3–5% increase</strong> in MDR pathogen prevalence</div></div>
+      <div class="ft-item"><div class="ft-dot" style="background:#028090"></div><div class="ft-text">CMP GCRF WAMREW: direct evidence linking contaminated water in conflict zones to AMR emergence</div></div>
+      <div class="ft-item"><div class="ft-dot" style="background:#02C39A"></div><div class="ft-text">Sources: WHO GLASS · Lancet Infectious Diseases · R4HC · CMP GCRF WAMREW · AUB GHI</div></div>
+      <!-- duplicate for loop -->
+      <div class="ft-item"><div class="ft-dot" style="background:#C0392B"></div><div class="ft-text">Conflict zones show <strong>2–3× higher AMR rates</strong> than non-conflict settings — Lancet 2023</div></div>
+      <div class="ft-item"><div class="ft-dot" style="background:#E07A5F"></div><div class="ft-text"><strong>Acinetobacter baumannii</strong> resistance exceeds 80% in MENA conflict wound infections</div></div>
+      <div class="ft-item"><div class="ft-dot" style="background:#D4A017"></div><div class="ft-text">Each year of conflict correlates with a <strong>3–5% increase</strong> in MDR pathogen prevalence</div></div>
+      <div class="ft-item"><div class="ft-dot" style="background:#028090"></div><div class="ft-text">CMP GCRF WAMREW: direct evidence linking contaminated water in conflict zones to AMR emergence</div></div>
+      <div class="ft-item"><div class="ft-dot" style="background:#02C39A"></div><div class="ft-text">Sources: WHO GLASS · Lancet Infectious Diseases · R4HC · CMP GCRF WAMREW · AUB GHI</div></div>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <div id="footer-stats">
-    <div class="fs-item"><div class="fs-dot" style="background:#C0392B"></div><div class="fs-text">Conflict zones show <strong>2–3× higher AMR rates</strong> than non-conflict settings (Lancet, 2023)</div></div>
-    <div class="fs-item"><div class="fs-dot" style="background:#E07A5F"></div><div class="fs-text"><strong>Acinetobacter baumannii</strong> resistance exceeds 80% in MENA conflict wound infections</div></div>
-    <div class="fs-item"><div class="fs-dot" style="background:#028090"></div><div class="fs-text">Each year of conflict correlates with a <strong>3–5% increase</strong> in MDR pathogen prevalence</div></div>
-    <div class="fs-item"><div class="fs-dot" style="background:#02C39A"></div><div class="fs-text">CMP GCRF WAMREW: direct evidence linking water systems in conflict to AMR emergence</div></div>
-    <div class="fs-source">Sources: WHO GLASS · Lancet Infectious Diseases · R4HC · CMP GCRF WAMREW</div>
-  </div>
-</div>
+</div><!-- #app -->
 
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
@@ -332,297 +325,238 @@
 // ─────────────────────────────────────────────────────────────────────────────
 const NODES = {
   war: {
-    id: 'war', label: 'WAR &\nCONFLICT', x: 550, y: 68,
-    r: 44, fill: '#8B1A1A', stroke: '#C0392B', glow: '#C0392B',
-    textColor: '#FFFFFF', fontSize: 12, special: 'war'
+    id:'war', label:'WAR &\nCONFLICT', x:550, y:68,
+    r:44, fill:'#8B1A1A', stroke:'#C0392B', glow:'#C0392B',
+    textColor:'#FFFFFF', fontSize:12, special:'war'
   },
   amr: {
-    id: 'amr', label: 'AMR\nEMERGENCE', x: 550, y: 508,
-    r: 44, fill: '#014D40', stroke: '#02C39A', glow: '#02C39A',
-    textColor: '#FFFFFF', fontSize: 11, special: 'amr'
+    id:'amr', label:'AMR\nEMERGENCE', x:550, y:516,
+    r:44, fill:'#014D40', stroke:'#02C39A', glow:'#02C39A',
+    textColor:'#FFFFFF', fontSize:11, special:'amr'
   },
   infra: {
-    id: 'infra', label: 'Infrastructure\nDestruction', x: 115, y: 268,
-    r: 52, fill: '#1A2A3A', stroke: '#E07A5F', glow: '#E07A5F',
-    textColor: '#E07A5F', fontSize: 10,
-    tag: 'PATHWAY 1', tagColor: '#E07A5F',
-    detail: {
-      title: 'Infrastructure Destruction',
-      subtitle: 'Water systems, hospitals, and sanitation networks are the first casualties of conflict.',
-      tag: 'PATHWAY 01', tagColor: '#E07A5F',
-      stats: [{ n: '68%', l: 'Conflicts Hit Water Systems' }, { n: '3–5×', l: 'ESBL Rise Post-Conflict' }],
-      mechanism: 'Airstrikes and ground combat routinely destroy water treatment plants, sewage systems, and power grids. Across conflicts in Syria, Yemen, Iraq, and Gaza, safe water access collapsed within weeks of hostilities. Without treated water, faecal-oral pathogens — including ESBL-producing E. coli and Klebsiella — spread rapidly. Collapsed sanitation creates breeding conditions for multidrug-resistant organisms (MDROs) in mass shelter settings.',
-      pathogens: ['ESBL E. coli (contaminated water)', 'Klebsiella pneumoniae (waterborne)', 'Cholera / Shigella (faecal-oral)'],
-      cmp: 'CMP\'s GCRF WAMREW program (AUB + Univ. East Anglia) has directly studied AMR transmission through water systems in protracted conflict settings across the MENA region, generating the primary evidence base for this causal pathway.'
+    id:'infra', label:'Infrastructure\nDestruction', x:115, y:272,
+    r:52, fill:'#1A2A3A', stroke:'#E07A5F', glow:'#E07A5F', textColor:'#E07A5F', fontSize:10,
+    detail:{
+      title:'Infrastructure Destruction',
+      subtitle:'Water systems, hospitals, and sanitation networks are the first casualties of conflict — and the first link in the AMR chain.',
+      tag:'PATHWAY 01', tagColor:'#E07A5F',
+      stats:[{n:'68%',l:'Conflicts damage water systems'},{n:'3–5×',l:'ESBL rise post-conflict'}],
+      mechanism:'Airstrikes and ground combat routinely destroy water treatment plants, sewage systems, and power grids. Across conflicts in Syria, Yemen, Iraq, and Gaza, safe water access collapsed within weeks of hostilities. Without treated water, faecal-oral pathogens — including ESBL-producing E. coli and Klebsiella — spread rapidly. Collapsed sanitation creates persistent breeding conditions for MDROs in mass shelter settings.',
+      pathogens:['ESBL-producing E. coli (contaminated water)','Klebsiella pneumoniae (waterborne spread)','Cholera / Shigella (faecal-oral route)','Typhoid (prolonged water contamination)']
     }
   },
   displacement: {
-    id: 'displacement', label: 'Mass\nDisplacement', x: 272, y: 198,
-    r: 52, fill: '#1A2A3A', stroke: '#C0392B', glow: '#C0392B',
-    textColor: '#C0392B', fontSize: 10,
-    tag: 'PATHWAY 2', tagColor: '#C0392B',
-    detail: {
-      title: 'Mass Displacement',
-      subtitle: 'Conflict-driven displacement concentrates millions in overcrowded shelters — creating ideal conditions for resistant pathogen spread.',
-      tag: 'PATHWAY 02', tagColor: '#C0392B',
-      stats: [{ n: '56M+', l: 'People Displaced Globally' }, { n: '4–6×', l: 'MDR-TB Risk in Camps' }],
-      mechanism: 'Rapid mass displacement concentrates large populations in facilities designed for far fewer people. Sharing toilets, sleeping areas, and food preparation space creates extreme cross-transmission risk. Studies across Syrian, Rohingya, and South Sudanese displacement settings show consistent patterns: within months of large-scale displacement, MDR pathogen carriage rates rise sharply — driven by overcrowding, poor hygiene, and antibiotic overuse in camp clinics.',
-      pathogens: ['MRSA (skin-to-skin contact)', 'MDR-TB (airborne, overcrowding)', 'C. difficile (poor hygiene)', 'Norovirus (fecal-oral, crowding)'],
-      cmp: 'CMP\'s iPROTECT data system and Pediatric Injury Registry (PAICon) provide deployable surveillance platforms for monitoring infection burden among displaced populations across conflict settings.'
+    id:'displacement', label:'Mass\nDisplacement', x:272, y:200,
+    r:52, fill:'#1A2A3A', stroke:'#C0392B', glow:'#C0392B', textColor:'#C0392B', fontSize:10,
+    detail:{
+      title:'Mass Displacement',
+      subtitle:'Conflict-driven displacement concentrates millions in overcrowded settings — creating ideal conditions for resistant pathogen spread.',
+      tag:'PATHWAY 02', tagColor:'#C0392B',
+      stats:[{n:'56M+',l:'People displaced globally'},{n:'4–6×',l:'MDR-TB risk in camps'}],
+      mechanism:'Rapid mass displacement concentrates populations in facilities designed for far fewer people. Sharing toilets, sleeping areas, and food preparation space creates extreme cross-transmission risk. Studies across Syrian, Rohingya, and South Sudanese displacement settings show consistent patterns: within months, MDR pathogen carriage rates rise sharply, driven by overcrowding, poor hygiene, and antibiotic overuse in camp clinics.',
+      pathogens:['MRSA (skin-to-skin contact in shelters)','MDR-TB (airborne, extreme overcrowding)','C. difficile (disrupted hygiene)','Norovirus / Hepatitis A (fecal-oral, crowding)']
     }
   },
   healthcare: {
-    id: 'healthcare', label: 'Healthcare\nCollapse', x: 415, y: 165,
-    r: 52, fill: '#1A2A3A', stroke: '#D4A017', glow: '#D4A017',
-    textColor: '#D4A017', fontSize: 10,
-    tag: 'PATHWAY 3', tagColor: '#D4A017',
-    detail: {
-      title: 'Healthcare System Collapse',
-      subtitle: 'Overwhelmed facilities and destroyed diagnostic capacity create the conditions for uncontrolled AMR emergence.',
-      tag: 'PATHWAY 03', tagColor: '#D4A017',
-      stats: [{ n: '>80%', l: 'Labs Lost in Active Conflicts' }, { n: '~2×', l: 'AMR Rise Within 6 Months' }],
-      mechanism: 'When hospital laboratories are destroyed or inaccessible, clinicians cannot perform culture and sensitivity testing. The only option becomes empirical broad-spectrum antibiotic therapy — prescribing the most powerful drugs available without knowing the causative pathogen. This pattern has been documented consistently across Iraq, Syria, Yemen, and Gaza: within months of healthcare collapse, rates of carbapenem-resistant and XDR organisms climb steeply as selection pressure intensifies across entire patient populations.',
-      pathogens: ['XDR Acinetobacter baumannii', 'Carbapenem-resistant Enterobacteriaceae (CRE)', 'Vancomycin-resistant Enterococcus (VRE)'],
-      cmp: 'CMP\'s PROTECT program provides a clinical research network deployable across conflict settings. The R4HC Certificate in Conflict Medicine includes AMR prescribing modules designed specifically for resource-limited, diagnostics-poor environments.'
+    id:'healthcare', label:'Healthcare\nCollapse', x:415, y:168,
+    r:52, fill:'#1A2A3A', stroke:'#D4A017', glow:'#D4A017', textColor:'#D4A017', fontSize:10,
+    detail:{
+      title:'Healthcare System Collapse',
+      subtitle:'Overwhelmed facilities and destroyed diagnostic capacity create conditions for uncontrolled, invisible AMR emergence.',
+      tag:'PATHWAY 03', tagColor:'#D4A017',
+      stats:[{n:'>80%',l:'Labs lost in active conflicts'},{n:'~2×',l:'AMR rise within 6 months'}],
+      mechanism:'When hospital laboratories are destroyed or inaccessible, clinicians cannot perform culture and sensitivity testing. The only option is empirical broad-spectrum antibiotic therapy — prescribing the most powerful drugs without knowing the causative pathogen. Documented consistently across Iraq, Syria, Yemen, and Gaza: within months of healthcare collapse, carbapenem-resistant and XDR organisms climb steeply as selection pressure intensifies.',
+      pathogens:['XDR Acinetobacter baumannii (untreatable)','Carbapenem-resistant Enterobacteriaceae (CRE)','Vancomycin-resistant Enterococcus (VRE)','Pan-drug-resistant Pseudomonas aeruginosa']
     }
   },
   supply: {
-    id: 'supply', label: 'Supply Chain\nBreakdown', x: 686, y: 165,
-    r: 52, fill: '#1A2A3A', stroke: '#028090', glow: '#028090',
-    textColor: '#028090', fontSize: 10,
-    tag: 'PATHWAY 4', tagColor: '#028090',
-    detail: {
-      title: 'Drug Supply Chain Breakdown',
-      subtitle: 'Disrupted supply lines lead to antibiotic stockouts and incomplete treatment courses — a core driver of resistance.',
-      tag: 'PATHWAY 04', tagColor: '#028090',
-      stats: [{ n: '40–60%', l: 'Drug Stock Reduction' }, { n: '3–5×', l: 'Cost Increase' }],
-      mechanism: 'Active conflict disrupts pharmaceutical supply chains, creating antibiotic stockouts and forcing substitution with inferior or inappropriate alternatives. Incomplete treatment courses — when patients cannot finish a full antibiotic course — expose bacteria to sub-lethal drug concentrations, directly selecting for resistant strains. This is one of the most well-documented AMR drivers in conflict settings.',
-      pathogens: ['MDR Staphylococcus aureus', 'Resistant Streptococcus pneumoniae', 'MDR Mycobacterium tuberculosis'],
-      cmp: 'CMP\'s iFIX project demonstrates a local manufacturing model — producing medical devices at <1/10th commercial cost. A parallel approach is needed for essential antibiotic supply in conflict: local procurement, stockpiling, and rational use protocols.'
+    id:'supply', label:'Supply Chain\nBreakdown', x:686, y:168,
+    r:52, fill:'#1A2A3A', stroke:'#028090', glow:'#028090', textColor:'#028090', fontSize:10,
+    detail:{
+      title:'Drug Supply Chain Breakdown',
+      subtitle:'Disrupted supply lines cause antibiotic stockouts and incomplete treatment courses — a textbook driver of resistance.',
+      tag:'PATHWAY 04', tagColor:'#028090',
+      stats:[{n:'40–60%',l:'Drug stock reduction in conflict'},{n:'3–5×',l:'Cost increase per course'}],
+      mechanism:'Active conflict disrupts pharmaceutical supply chains, creating antibiotic stockouts and forcing substitution with inferior alternatives. Incomplete treatment courses — when patients cannot finish a full course — expose bacteria to sub-lethal drug concentrations, directly selecting for resistant strains. This is one of the most well-documented AMR drivers across all major conflict settings of the past 25 years.',
+      pathogens:['MDR Staphylococcus aureus (incomplete courses)','Resistant Streptococcus pneumoniae','MDR Mycobacterium tuberculosis (interrupted therapy)','Resistant malaria parasites (poor quality drugs)']
     }
   },
   trauma: {
-    id: 'trauma', label: 'Trauma &\nOpen Wounds', x: 828, y: 198,
-    r: 52, fill: '#1A2A3A', stroke: '#8B1A1A', glow: '#8B1A1A',
-    textColor: '#C0392B', fontSize: 10,
-    tag: 'PATHWAY 5', tagColor: '#8B1A1A',
-    detail: {
-      title: 'Trauma & Open Wounds',
-      subtitle: 'Blast and ballistic injuries create the ideal biological entry point for the most dangerous drug-resistant organisms known to medicine.',
-      tag: 'PATHWAY 05', tagColor: '#C0392B',
-      stats: [{ n: '>80%', l: 'A. baumannii Resistance Rate' }, { n: '★ XDR', l: 'Often No Treatment Left' }],
-      mechanism: 'Blast and ballistic injuries produce complex contaminated wounds with soil, debris, and shrapnel embedded in tissue. Acinetobacter baumannii — nicknamed "Iraqibacter" after its emergence during the Iraq War — thrives in this environment and has since been documented in every major conflict from Afghanistan to Syria to Gaza. CMP\'s own GCRF data from MENA conflict settings confirms A. baumannii as the dominant AMR pathogen in conflict wound infections, frequently Extensively Drug-Resistant (XDR) with no remaining treatment options.',
-      pathogens: ['Acinetobacter baumannii (XDR) ★ HIGHEST RISK', 'Pseudomonas aeruginosa (MDR)', 'MDR Staphylococcus aureus (MRSA)', 'Clostridium (gas gangrene in field wounds)'],
-      cmp: 'CMP\'s PROTECT program researches trauma care across conflict settings including Gaza and Lebanon. The iFIX external fixator project addresses orthopedic trauma — the injury category most susceptible to XDR wound infections. CMP develops empirical antibiotic guidance for blast wound management in low-resource conflict environments.'
+    id:'trauma', label:'Trauma &\nOpen Wounds', x:828, y:200,
+    r:52, fill:'#1A2A3A', stroke:'#8B1A1A', glow:'#8B1A1A', textColor:'#C0392B', fontSize:10,
+    detail:{
+      title:'Trauma & Open Wounds',
+      subtitle:'Blast injuries create the perfect biological entry point for the most dangerous drug-resistant organisms known to medicine.',
+      tag:'PATHWAY 05', tagColor:'#C0392B',
+      stats:[{n:'>80%',l:'A. baumannii resistance rate'},{n:'★ XDR',l:'Often no treatment left'}],
+      mechanism:'Blast and ballistic injuries produce complex contaminated wounds with soil, debris, and shrapnel embedded in tissue. Acinetobacter baumannii — nicknamed "Iraqibacter" after its emergence during the Iraq War — thrives in this environment and has since been documented in every major conflict from Afghanistan to Syria to Gaza. CMP\'s GCRF data from MENA settings confirms A. baumannii as the dominant AMR pathogen in conflict wound infections, frequently XDR with no remaining treatment options.',
+      pathogens:['Acinetobacter baumannii XDR ★ HIGHEST RISK','Pseudomonas aeruginosa (MDR, burn wounds)','MDR Staphylococcus aureus (MRSA)','Clostridium spp. (gas gangrene in field wounds)']
     }
   },
   surveillance: {
-    id: 'surveillance', label: 'Surveillance\nFailure', x: 985, y: 268,
-    r: 52, fill: '#1A2A3A', stroke: '#4A6B82', glow: '#4A6B82',
-    textColor: '#4A6B82', fontSize: 10,
-    tag: 'PATHWAY 6', tagColor: '#4A6B82',
-    detail: {
-      title: 'Surveillance Failure',
-      subtitle: 'Without monitoring, AMR spreads silently — only detected when clinical treatment failures become catastrophic.',
-      tag: 'PATHWAY 06', tagColor: '#4A6B82',
-      stats: [{ n: '~0', l: 'Active AMR Monitoring' }, { n: '6–18mo', l: 'Avg Detection Lag' }],
-      mechanism: 'Conflict destroys the public health surveillance infrastructure needed to detect and respond to AMR outbreaks. Laboratory networks go offline, reporting chains break down, and WHO GLASS data collection stops entirely. This surveillance blackout — documented in Syria, Yemen, Sudan, and across the Sahel — allows resistant strains to spread undetected through health facilities, communities, and displacement camps for 6–18 months before the clinical picture becomes undeniable through mass treatment failure.',
-      pathogens: ['All MDR/XDR organisms spread undetected', 'Novel resistance mechanisms go uncharacterised', 'Outbreak clusters missed until mass treatment failure'],
-      cmp: 'CMP\'s iPROTECT data system provides a ready-to-deploy surveillance platform adaptable to any conflict setting. The GCRF WAMREW network includes regional laboratory partners across the MENA region with AMR monitoring capacity that can be rapidly mobilised.'
+    id:'surveillance', label:'Surveillance\nFailure', x:985, y:272,
+    r:52, fill:'#1A2A3A', stroke:'#4A6B82', glow:'#4A6B82', textColor:'#4A6B82', fontSize:10,
+    detail:{
+      title:'Surveillance Failure',
+      subtitle:'Without monitoring, AMR spreads silently — only detected when clinical treatment failures become catastrophic.',
+      tag:'PATHWAY 06', tagColor:'#4A6B82',
+      stats:[{n:'~0',l:'Active AMR monitoring in conflict'},{n:'6–18mo',l:'Average detection lag'}],
+      mechanism:'Conflict destroys the public health surveillance infrastructure needed to detect and respond to AMR outbreaks. Laboratory networks go offline, reporting chains break down, and WHO GLASS data collection stops entirely. This blackout — documented in Syria, Yemen, Sudan, and across the Sahel — allows resistant strains to spread undetected for 6–18 months before mass treatment failure makes the scale undeniable.',
+      pathogens:['All MDR/XDR organisms spread undetected','Novel resistance mechanisms go uncharacterised','Outbreak clusters missed until treatment failure','Post-conflict AMR burden severely underestimated']
     }
   }
 };
 
-// Path definitions (from → to)
 const PATHS = [
-  { from: 'war', to: 'infra',        color: '#E07A5F' },
-  { from: 'war', to: 'displacement', color: '#C0392B' },
-  { from: 'war', to: 'healthcare',   color: '#D4A017' },
-  { from: 'war', to: 'supply',       color: '#028090' },
-  { from: 'war', to: 'trauma',       color: '#8B1A1A' },
-  { from: 'war', to: 'surveillance', color: '#4A6B82' },
-  { from: 'infra',        'to': 'amr', color: '#02C39A' },
-  { from: 'displacement', 'to': 'amr', color: '#02C39A' },
-  { from: 'healthcare',   'to': 'amr', color: '#02C39A' },
-  { from: 'supply',       'to': 'amr', color: '#02C39A' },
-  { from: 'trauma',       'to': 'amr', color: '#02C39A' },
-  { from: 'surveillance', 'to': 'amr', color: '#02C39A' },
+  {from:'war',to:'infra',        color:'#E07A5F'},
+  {from:'war',to:'displacement', color:'#C0392B'},
+  {from:'war',to:'healthcare',   color:'#D4A017'},
+  {from:'war',to:'supply',       color:'#028090'},
+  {from:'war',to:'trauma',       color:'#8B1A1A'},
+  {from:'war',to:'surveillance', color:'#4A6B82'},
+  {from:'infra',        to:'amr', color:'#02C39A'},
+  {from:'displacement', to:'amr', color:'#02C39A'},
+  {from:'healthcare',   to:'amr', color:'#02C39A'},
+  {from:'supply',       to:'amr', color:'#02C39A'},
+  {from:'trauma',       to:'amr', color:'#02C39A'},
+  {from:'surveillance', to:'amr', color:'#02C39A'},
 ];
 
+const PATHWAY_NODES = ['infra','displacement','healthcare','supply','trauma','surveillance'];
+
 // ─────────────────────────────────────────────────────────────────────────────
-// SVG RENDERING
+// SVG
 // ─────────────────────────────────────────────────────────────────────────────
 const svg = document.getElementById('diagram-svg');
 
-function cubicBezier(x1, y1, x2, y2) {
-  // Control points: drooping S-curve
-  const cy1 = y1 + (y2 - y1) * 0.45;
-  const cy2 = y2 - (y2 - y1) * 0.45;
+function bezierPath(x1,y1,x2,y2) {
+  const cy1 = y1+(y2-y1)*0.45, cy2 = y2-(y2-y1)*0.45;
   return `M ${x1} ${y1} C ${x1} ${cy1}, ${x2} ${cy2}, ${x2} ${y2}`;
 }
 
-// Defs (gradients + glow filters)
-const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-// Glow filters
-['war','amr','infra','displacement','healthcare','supply','trauma','surveillance'].forEach(id => {
-  const n = NODES[id];
-  const f = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
-  f.setAttribute('id', `glow-${id}`);
-  f.setAttribute('x', '-50%'); f.setAttribute('y', '-50%');
-  f.setAttribute('width', '200%'); f.setAttribute('height', '200%');
-  const feGaussian = document.createElementNS('http://www.w3.org/2000/svg', 'feGaussianBlur');
-  feGaussian.setAttribute('stdDeviation', id === 'war' || id === 'amr' ? '8' : '5');
-  feGaussian.setAttribute('result', 'blur');
-  const feMerge = document.createElementNS('http://www.w3.org/2000/svg', 'feMerge');
-  const m1 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
-  m1.setAttribute('in', 'blur');
-  const m2 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
-  m2.setAttribute('in', 'SourceGraphic');
-  feMerge.appendChild(m1); feMerge.appendChild(m2);
-  f.appendChild(feGaussian); f.appendChild(feMerge);
-  defs.appendChild(f);
+// Defs / glow filters
+const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+Object.keys(NODES).forEach(id => {
+  const f = document.createElementNS('http://www.w3.org/2000/svg','filter');
+  f.setAttribute('id',`glow-${id}`);
+  f.setAttribute('x','-60%'); f.setAttribute('y','-60%');
+  f.setAttribute('width','220%'); f.setAttribute('height','220%');
+  const blur = document.createElementNS('http://www.w3.org/2000/svg','feGaussianBlur');
+  blur.setAttribute('stdDeviation', (id==='war'||id==='amr') ? '9' : '5');
+  blur.setAttribute('result','blur');
+  const merge = document.createElementNS('http://www.w3.org/2000/svg','feMerge');
+  ['blur','SourceGraphic'].forEach(s => {
+    const n = document.createElementNS('http://www.w3.org/2000/svg','feMergeNode');
+    n.setAttribute('in',s); merge.appendChild(n);
+  });
+  f.appendChild(blur); f.appendChild(merge); defs.appendChild(f);
 });
 svg.appendChild(defs);
 
 // Draw paths
-const pathElements = {};
-PATHS.forEach((p, i) => {
-  const n1 = NODES[p.from], n2 = NODES[p.to];
-  const d = cubicBezier(n1.x, n1.y, n2.x, n2.y);
-  const el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  el.setAttribute('d', d);
-  el.setAttribute('fill', 'none');
+PATHS.forEach(p => {
+  const n1=NODES[p.from], n2=NODES[p.to];
+  const el = document.createElementNS('http://www.w3.org/2000/svg','path');
+  el.setAttribute('d', bezierPath(n1.x,n1.y,n2.x,n2.y));
+  el.setAttribute('fill','none');
   el.setAttribute('stroke', p.color);
-  el.setAttribute('stroke-width', '1.8');
-  el.setAttribute('stroke-opacity', '0.25');
-  el.setAttribute('class', 'flow-path');
-  el.setAttribute('id', `path-${p.from}-${p.to}`);
+  el.setAttribute('stroke-width','1.8');
+  el.setAttribute('stroke-opacity','0.22');
+  el.setAttribute('class','flow-path');
+  el.setAttribute('id',`path-${p.from}-${p.to}`);
   svg.appendChild(el);
-  if (!pathElements[p.from]) pathElements[p.from] = [];
-  pathElements[p.from].push(el);
-  if (!pathElements[p.to]) pathElements[p.to] = [];
-  pathElements[p.to].push(el);
 });
 
 // Draw nodes
-const nodeGroupEls = {};
-const PATHWAY_NODES = ['infra','displacement','healthcare','supply','trauma','surveillance'];
-
 Object.values(NODES).forEach(n => {
-  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  g.setAttribute('class', 'node-group');
-  g.setAttribute('id', `node-${n.id}`);
-  g.setAttribute('transform', `translate(${n.x}, ${n.y})`);
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('class','node-group');
+  g.setAttribute('id',`node-${n.id}`);
+  g.setAttribute('transform',`translate(${n.x},${n.y})`);
 
-  // Pulse ring (WAR + AMR only)
-  if (n.special) {
-    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    pulse.setAttribute('r', n.special === 'war' ? 44 : 40);
-    pulse.setAttribute('fill', n.glow);
-    pulse.setAttribute('opacity', '0.15');
-    pulse.setAttribute('class', n.special === 'war' ? 'war-pulse' : 'amr-pulse');
+  if(n.special) {
+    const pulse = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    pulse.setAttribute('r', n.special==='war' ? 44 : 40);
+    pulse.setAttribute('fill',n.glow); pulse.setAttribute('opacity','0.15');
+    pulse.setAttribute('class', n.special==='war' ? 'war-pulse' : 'amr-pulse');
     g.appendChild(pulse);
   }
 
-  // Hover ring
-  const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  ring.setAttribute('r', n.r + 10);
-  ring.setAttribute('fill', 'none');
-  ring.setAttribute('stroke', n.stroke);
-  ring.setAttribute('stroke-width', '1');
-  ring.setAttribute('stroke-opacity', '0.4');
-  ring.setAttribute('class', 'node-ring');
+  // Larger invisible hit area for touch
+  const hit = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  hit.setAttribute('r', n.r+16); hit.setAttribute('fill','transparent');
+  g.appendChild(hit);
+
+  const ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  ring.setAttribute('r',n.r+10); ring.setAttribute('fill','none');
+  ring.setAttribute('stroke',n.stroke); ring.setAttribute('stroke-width','1');
+  ring.setAttribute('stroke-opacity','0.4'); ring.setAttribute('class','node-ring');
   g.appendChild(ring);
 
-  // Glow behind
-  const glowCirc = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  glowCirc.setAttribute('r', n.r + 4);
-  glowCirc.setAttribute('fill', n.glow);
-  glowCirc.setAttribute('opacity', n.special ? '0.18' : '0.10');
-  glowCirc.setAttribute('filter', `url(#glow-${n.id})`);
-  g.appendChild(glowCirc);
+  const glow = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  glow.setAttribute('r',n.r+4); glow.setAttribute('fill',n.glow);
+  glow.setAttribute('opacity', n.special ? '0.18' : '0.10');
+  glow.setAttribute('filter',`url(#glow-${n.id})`);
+  g.appendChild(glow);
 
-  // Main circle
-  const circ = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  circ.setAttribute('r', n.r);
-  circ.setAttribute('fill', n.fill);
-  circ.setAttribute('stroke', n.stroke);
+  const circ = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  circ.setAttribute('r',n.r); circ.setAttribute('fill',n.fill);
+  circ.setAttribute('stroke',n.stroke);
   circ.setAttribute('stroke-width', n.special ? '2.5' : '1.8');
-  circ.setAttribute('class', 'node-circle');
+  circ.setAttribute('class','node-circle');
   g.appendChild(circ);
 
-  // Label
   const lines = n.label.split('\n');
-  const lineH = 14;
-  const startY = -(lines.length - 1) * lineH / 2;
-  lines.forEach((line, li) => {
-    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    t.setAttribute('text-anchor', 'middle');
-    t.setAttribute('dominant-baseline', 'middle');
-    t.setAttribute('y', startY + li * lineH);
-    t.setAttribute('fill', n.textColor);
-    t.setAttribute('font-size', n.fontSize);
+  const lh=14, startY=-(lines.length-1)*lh/2;
+  lines.forEach((line,li) => {
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('text-anchor','middle'); t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('y', startY+li*lh); t.setAttribute('fill',n.textColor);
+    t.setAttribute('font-size',n.fontSize);
     t.setAttribute('font-weight', n.special ? '700' : '600');
-    t.setAttribute('font-family', n.special ? 'Playfair Display, serif' : 'Inter, sans-serif');
-    t.setAttribute('pointer-events', 'none');
-    t.textContent = line;
+    t.setAttribute('font-family', n.special ? 'Playfair Display,serif' : 'Inter,sans-serif');
+    t.setAttribute('pointer-events','none'); t.textContent=line;
     g.appendChild(t);
   });
 
-  if (PATHWAY_NODES.includes(n.id)) {
-    g.style.cursor = 'pointer';
+  if(PATHWAY_NODES.includes(n.id)) {
+    g.style.cursor='pointer';
     g.addEventListener('click', () => openPanel(n.id));
-    g.addEventListener('mouseenter', () => highlightNode(n.id, true));
-    g.addEventListener('mouseleave', () => highlightNode(n.id, false));
+    g.addEventListener('mouseenter', () => highlightNode(n.id,true));
+    g.addEventListener('mouseleave', () => highlightNode(n.id,false));
   }
-
   svg.appendChild(g);
-  nodeGroupEls[n.id] = g;
 });
 
-function highlightNode(id, on) {
-  const paths = PATHS.filter(p => p.from === id || p.to === id);
-  paths.forEach(p => {
-    const el = document.getElementById(`path-${p.from}-${p.to}`);
-    if (el) {
-      el.style.strokeOpacity = on ? '0.6' : '0.25';
-      el.style.strokeWidth = on ? '2.5' : '1.8';
-    }
+function highlightNode(id,on) {
+  PATHS.filter(p=>p.from===id||p.to===id).forEach(p => {
+    const el=document.getElementById(`path-${p.from}-${p.to}`);
+    if(el){ el.style.strokeOpacity=on?'0.62':'0.22'; el.style.strokeWidth=on?'2.8':'1.8'; }
   });
-  const gEl = document.getElementById(`node-${id}`);
-  if (gEl) {
-    const circ = gEl.querySelector('circle.node-circle');
-    if (circ) circ.style.filter = on ? `drop-shadow(0 0 10px ${NODES[id].glow})` : '';
-  }
+  const circ=document.querySelector(`#node-${id} circle.node-circle`);
+  if(circ) circ.style.filter=on?`drop-shadow(0 0 10px ${NODES[id].glow})`:'';
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PARTICLE SYSTEM
+// PARTICLES
 // ─────────────────────────────────────────────────────────────────────────────
-const canvas = document.getElementById('particle-canvas');
-const ctx = canvas.getContext('2d');
-
-let W, H, scaleX, scaleY;
-const SVG_W = 1100, SVG_H = 580;
+const canvas=document.getElementById('particle-canvas');
+const ctx=canvas.getContext('2d');
+const SVG_W=1100, SVG_H=590;
+let W,H,scaleX,scaleY;
 
 function resizeCanvas() {
-  const wrap = document.getElementById('diagram-wrap');
-  W = wrap.clientWidth;
-  H = wrap.clientHeight;
-  canvas.width = W;
-  canvas.height = H;
-  scaleX = W / SVG_W;
-  scaleY = H / SVG_H;
+  const wrap=document.getElementById('diagram-wrap');
+  W=wrap.clientWidth; H=wrap.clientHeight;
+  canvas.width=W; canvas.height=H;
+  scaleX=W/SVG_W; scaleY=H/SVG_H;
 }
-
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-// Bezier point at t
-function bezierPoint(x1, y1, x2, y2, t) {
-  const cy1 = y1 + (y2 - y1) * 0.45;
-  const cy2 = y2 - (y2 - y1) * 0.45;
-  const mt = 1 - t;
+function bezierPoint(x1,y1,x2,y2,t) {
+  const cy1=y1+(y2-y1)*0.45, cy2=y2-(y2-y1)*0.45, mt=1-t;
   return {
     x: mt*mt*mt*x1 + 3*mt*mt*t*x1 + 3*mt*t*t*x2 + t*t*t*x2,
     y: mt*mt*mt*y1 + 3*mt*mt*t*cy1 + 3*mt*t*t*cy2 + t*t*t*y2
@@ -630,106 +564,89 @@ function bezierPoint(x1, y1, x2, y2, t) {
 }
 
 class Particle {
-  constructor(path) {
-    this.path = path;
-    this.reset();
-  }
-  reset() {
-    this.t = Math.random();
-    this.speed = 0.0018 + Math.random() * 0.0022;
-    this.size = 1.5 + Math.random() * 2;
-    this.alpha = 0.4 + Math.random() * 0.5;
-  }
-  update() {
-    this.t += this.speed;
-    if (this.t > 1) this.t = 0;
-  }
-  draw() {
-    const n1 = NODES[this.path.from], n2 = NODES[this.path.to];
-    const pos = bezierPoint(n1.x, n1.y, n2.x, n2.y, this.t);
-    const px = pos.x * scaleX;
-    const py = pos.y * scaleY;
+  constructor(path){ this.path=path; this.reset(); }
+  reset(){ this.t=Math.random(); this.speed=0.0016+Math.random()*0.0024; this.size=1.4+Math.random()*2; this.alpha=0.35+Math.random()*0.55; }
+  update(){ this.t+=this.speed; if(this.t>1)this.t=0; }
+  draw(){
+    const n1=NODES[this.path.from], n2=NODES[this.path.to];
+    const pos=bezierPoint(n1.x,n1.y,n2.x,n2.y,this.t);
     ctx.beginPath();
-    ctx.arc(px, py, this.size * Math.min(scaleX, scaleY), 0, Math.PI * 2);
-    ctx.fillStyle = this.path.color;
-    ctx.globalAlpha = this.alpha * (0.5 + 0.5 * Math.sin(this.t * Math.PI));
-    ctx.fill();
-    ctx.globalAlpha = 1;
+    ctx.arc(pos.x*scaleX, pos.y*scaleY, this.size*Math.min(scaleX,scaleY), 0, Math.PI*2);
+    ctx.fillStyle=this.path.color;
+    ctx.globalAlpha=this.alpha*(0.5+0.5*Math.sin(this.t*Math.PI));
+    ctx.fill(); ctx.globalAlpha=1;
   }
 }
 
-const particles = [];
-PATHS.forEach(p => {
-  const count = 6 + Math.floor(Math.random() * 4);
-  for (let i = 0; i < count; i++) particles.push(new Particle(p));
-});
+const particles=[];
+PATHS.forEach(p=>{ for(let i=0;i<7+Math.floor(Math.random()*4);i++) particles.push(new Particle(p)); });
 
-function animateParticles() {
-  ctx.clearRect(0, 0, W, H);
-  particles.forEach(p => { p.update(); p.draw(); });
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
+(function animate(){ ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); })();
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DETAIL PANEL
 // ─────────────────────────────────────────────────────────────────────────────
-const panel = document.getElementById('detail-panel');
-const inner = document.getElementById('detail-inner');
-let activeNode = null;
+const panel=document.getElementById('detail-panel');
+const inner=document.getElementById('detail-inner');
+let activeNode=null;
+const isMobile=()=>window.innerWidth<=700;
 
 function openPanel(id) {
-  if (activeNode === id) { closePanel(); return; }
-  activeNode = id;
-  const n = NODES[id];
-  const d = n.detail;
+  if(activeNode===id){ closePanel(); return; }
+  activeNode=id;
+  const n=NODES[id]; const d=n.detail;
 
-  // Deactivate all
-  PATHWAY_NODES.forEach(nid => {
-    const circ = document.querySelector(`#node-${nid} circle.node-circle`);
-    if (circ) { circ.setAttribute('stroke-width', '1.8'); circ.style.filter = ''; }
+  PATHWAY_NODES.forEach(nid=>{
+    const c=document.querySelector(`#node-${nid} circle.node-circle`);
+    if(c){ c.setAttribute('stroke-width','1.8'); c.style.filter=''; }
   });
-  // Activate selected
-  const sel = document.querySelector(`#node-${id} circle.node-circle`);
-  if (sel) { sel.setAttribute('stroke-width', '3'); sel.style.filter = `drop-shadow(0 0 12px ${n.glow})`; }
+  const sel=document.querySelector(`#node-${id} circle.node-circle`);
+  if(sel){ sel.setAttribute('stroke-width','3'); sel.style.filter=`drop-shadow(0 0 14px ${n.glow})`; }
 
-  inner.innerHTML = `
+  inner.innerHTML=`
     <div class="dp-close"><button onclick="closePanel()">✕ Close</button></div>
     <span class="dp-tag" style="background:${d.tagColor}22;color:${d.tagColor};border:1px solid ${d.tagColor}44">${d.tag}</span>
     <div class="dp-title">${d.title}</div>
     <div class="dp-subtitle">${d.subtitle}</div>
-
     <div class="dp-stat-row">
-      ${d.stats.map(s => `<div class="dp-stat"><div class="n" style="color:${d.tagColor}">${s.n}</div><div class="l">${s.l}</div></div>`).join('')}
+      ${d.stats.map(s=>`<div class="dp-stat"><div class="n" style="color:${d.tagColor}">${s.n}</div><div class="l">${s.l}</div></div>`).join('')}
     </div>
-
     <div class="dp-section">
       <div class="dp-section-title">AMR Transmission Mechanism</div>
       <p>${d.mechanism}</p>
     </div>
-
     <div class="dp-section">
       <div class="dp-section-title">Pathogens of Concern</div>
-      <ul class="dp-pathogens">
-        ${d.pathogens.map(p => `<li>${p}</li>`).join('')}
-      </ul>
+      <ul class="dp-pathogens">${d.pathogens.map(p=>`<li>${p}</li>`).join('')}</ul>
     </div>
   `;
 
   panel.classList.add('open');
-  resizeCanvas();
+  if(!isMobile()) setTimeout(resizeCanvas, 10);
 }
 
 function closePanel() {
   panel.classList.remove('open');
-  activeNode = null;
-  PATHWAY_NODES.forEach(nid => {
-    const circ = document.querySelector(`#node-${nid} circle.node-circle`);
-    if (circ) { circ.setAttribute('stroke-width', '1.8'); circ.style.filter = ''; }
+  activeNode=null;
+  PATHWAY_NODES.forEach(nid=>{
+    const c=document.querySelector(`#node-${nid} circle.node-circle`);
+    if(c){ c.setAttribute('stroke-width','1.8'); c.style.filter=''; }
   });
-  setTimeout(resizeCanvas, 380);
+  if(!isMobile()) setTimeout(resizeCanvas, 380);
 }
-window.closePanel = closePanel;
+window.closePanel=closePanel;
+
+// Close mobile panel on backdrop tap
+document.getElementById('diagram-wrap').addEventListener('click', e => {
+  if(isMobile() && activeNode && !e.target.closest('#detail-panel')) closePanel();
+});
+
+// Swipe-down to close on mobile
+let touchStartY=0;
+inner.addEventListener('touchstart', e=>{ touchStartY=e.touches[0].clientY; },{passive:true});
+inner.addEventListener('touchend', e=>{
+  if(e.changedTouches[0].clientY - touchStartY > 60) closePanel();
+},{passive:true});
 </script>
 </body>
 </html>
